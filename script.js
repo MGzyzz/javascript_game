@@ -1,9 +1,9 @@
 const game = {
-    words: ['hello', 'hi', 'good morning', 'sun', 'python'],
+    words: ['hello', 'javascript', 'good morning', 'sun', 'python'],
     currentWord: '',
     arena: [],
     attemps: 0,
-    guessedLetters: []
+    wrongletters: []
 }
 
 
@@ -22,7 +22,8 @@ function getUserInput(arena) {
     while (true) {
         const input = prompt(`${arena.join('')}\nВведите букву`).toLowerCase()
         if (input != null) {
-            if ((0 != input.length) && (input.length < 2)) {
+            var regex = /^[a-zA-Z]+$/;
+            if ((0 != input.length) && (input.length < 2) && (input.match(regex))) {
                 return input
             } else {
                 alert('Вы вели больше одной буквы, попробуйте еще раз')
@@ -44,7 +45,6 @@ function main() {
             for (let i = 0; i < game.currentWord.length; i++) {
                 if (input == game.currentWord[i]) {
                     game.arena[i] = input
-                    game.guessedLetters.push(input)
                     found = true
                 }
             }
@@ -57,6 +57,7 @@ function main() {
         } else {
             break
         }
+        game.wrongletters.push(input)
     }
     console.log(game.words)
     if (!(game.words.length == 0)) {
@@ -69,7 +70,7 @@ function main() {
         }
     } else {
         alert('Игра окончена. Вы угадали все слова')
-        console.log(game.attemps, game.arena, game.currentWord, game.words, game.guessedLetters)
+        console.log(game.attemps, game.arena, game.currentWord, game.words, game.wrongletters)
         console.log('stop')
     }
 }
