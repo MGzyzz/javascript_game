@@ -1,13 +1,18 @@
-let words = ['hello', 'hi', 'good morning', 'sun', 'python']
+const game = {
+    words: ['hello', 'hi', 'good morning', 'sun', 'python'],
+    currentWord: '',
+    arena: [],
+    attemps: 0,
+    guessedLetters: []
+}
 
 
 function getRandomWords() {
-    const removeSpaceWords = words.map(word => word.replace(/ /g, ''))
-    words = removeSpaceWords
-    const randominxed = Math.floor(Math.random() * words.length)
-    return words.splice(randominxed, 1)[0]
+    const removeSpaceWords = game.words.map(word => word.replace(/ /g, ''))
+    game.words = removeSpaceWords
+    const randominxed = Math.floor(Math.random() * game.words.length)
+    return game.words.splice(randominxed, 1)[0]
 }
-
 
 function createArena(words) {
     return Array(words.length).fill('-')
@@ -30,40 +35,43 @@ function getUserInput(arena) {
 
 function main() {
     alert('Загадано слово, угадайте его')
-    let change = 0
-    const randomwords = getRandomWords()
-    let arena = createArena(randomwords)
+    game.currentWord = getRandomWords()
+    game.arena = createArena(game.currentWord)
     while (true) {
-        const input = getUserInput(arena)
+        const input = getUserInput(game.arena)
         let found = false
         if (input != null) {
-            for (let i = 0; i < randomwords.length; i++) {
-                if (input == randomwords[i]) {
-                    arena[i] = input
+            for (let i = 0; i < game.currentWord.length; i++) {
+                if (input == game.currentWord[i]) {
+                    game.arena[i] = input
+                    game.guessedLetters.push(input)
                     found = true
                 }
             }
             if (!found) {
-                change++;
+                game.attemps++;
             }
-            if (!(arena.includes('-'))) {
+            if (!(game.arena.includes('-'))) {
                 break;
             }
         } else {
             break
         }
     }
-    console.log(words)
-    if (!(words.length == 0)) {
-        const choose = prompt(`Игра окончена. Загаданное слово было ${randomwords} Количество попыток ${change}\nХотите повторить игру? y/n`)
+    console.log(game.words)
+    if (!(game.words.length == 0)) {
+        const choose = prompt(`Игра окончена. Загаданное слово было ${game.currentWord} Количество попыток ${game.attemps}\nХотите повторить игру? y/n`)
         if (choose != null && choose == 'y') {
+            game.attemps = 0
             main()
+        } else {
+            alert('игра окончена')
         }
     } else {
         alert('Игра окончена. Вы угадали все слова')
+        console.log(game.attemps, game.arena, game.currentWord, game.words, game.guessedLetters)
         console.log('stop')
     }
 }
-
 
 main()
