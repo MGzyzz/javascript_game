@@ -26,7 +26,7 @@ function getUserInput(arena) {
             if ((0 != input.length) && (input.length < 2) && (input.match(regex))) {
                 return input
             } else {
-                alert('Вы вели больше одной буквы, попробуйте еще раз')
+                alert('Вы вели больше одной буквы или неправильный символ, попробуйте еще раз')
             }
         } else {
             return null
