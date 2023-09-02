@@ -1,25 +1,26 @@
-function RandomWords(words) {
-    let removeSpaceWords = words.map(word => word.replace(/ /g, ''))
-    let randominxed = Math.floor(Math.random() * removeSpaceWords.length)
-    return removeSpaceWords[randominxed]
+let words = ['hello', 'hi', 'good morning', 'sun', 'python']
+
+
+function getRandomWords() {
+    const removeSpaceWords = words.map(word => word.replace(/ /g, ''))
+    words = removeSpaceWords
+    const randominxed = Math.floor(Math.random() * words.length)
+    return words.splice(randominxed, 1)[0]
 }
+
 
 function createArena(words) {
-    massive = []
-    for (let i = 0; i < words.length; i++) {
-        massive.push('-')
-    }
-    return massive
+    return Array(words.length).fill('-')
 }
 
-function check_word(arena) {
+function getUserInput(arena) {
     while (true) {
-        let word = prompt(`${arena.join('')}\nВведите букву`).toLowerCase()
-        if (word != null) {
-            if (!(word.length > 1)) {
-                return word
+        const input = prompt(`${arena.join('')}\nВведите букву`).toLowerCase()
+        if (input != null) {
+            if ((0 != input.length) && (input.length < 2)) {
+                return input
             } else {
-                console.log('Вы вели больше одной буквы, попробуйте еще раз')
+                alert('Вы вели больше одной буквы, попробуйте еще раз')
             }
         } else {
             return null
@@ -30,23 +31,21 @@ function check_word(arena) {
 function main() {
     alert('Загадано слово, угадайте его')
     let change = 0
-    massive_words = ['hello', 'hi', 'good morning', 'sun', 'python']
-    let randomwords = RandomWords(massive_words)
+    const randomwords = getRandomWords()
     let arena = createArena(randomwords)
     while (true) {
-        words = check_word(arena)
-        if (words != null) {
-            console.log(randomwords)
+        const input = getUserInput(arena)
+        let found = false
+        if (input != null) {
             for (let i = 0; i < randomwords.length; i++) {
-                if (words == randomwords[i]) {
-                    arena[i] = words
+                if (input == randomwords[i]) {
+                    arena[i] = input
+                    found = true
                 }
             }
-            console.log(!(randomwords.includes(words)))
-            if (!(randomwords.includes(words))) {
+            if (!found) {
                 change++;
             }
-            console.log(arena)
             if (!(arena.includes('-'))) {
                 break;
             }
@@ -54,11 +53,17 @@ function main() {
             break
         }
     }
-    let choose = prompt(`Игра окончена. Загаданное слово было ${randomwords} Количество попыток ${change}\nХотите повторить игру? y/n`)
-    if (choose != null && choose == 'y') {
-        main()
+    console.log(words)
+    if (!(words.length == 0)) {
+        const choose = prompt(`Игра окончена. Загаданное слово было ${randomwords} Количество попыток ${change}\nХотите повторить игру? y/n`)
+        if (choose != null && choose == 'y') {
+            main()
+        }
+    } else {
+        alert('Игра окончена. Вы угадали все слова')
+        console.log('stop')
     }
-
 }
+
 
 main()
