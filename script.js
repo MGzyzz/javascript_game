@@ -20,11 +20,11 @@ function createArena(words) {
 
 function getUserInput(arena) {
     while (true) {
-        const input = prompt(`${arena.join('')}\nВведите букву`).toLowerCase()
+        const input = prompt(`${arena.join('')}\nВведите букву`)
         if (input != null) {
             var regex = /^[a-zA-Z]+$/;
             if ((0 != input.length) && (input.length < 2) && (input.match(regex))) {
-                return input
+                return input.toLowerCase()
             } else {
                 alert('Вы вели больше одной буквы или неправильный символ, попробуйте еще раз')
             }
@@ -41,6 +41,7 @@ function main() {
     while (true) {
         const input = getUserInput(game.arena)
         let found = false
+        console.log(input)
         if (input != null) {
             for (let i = 0; i < game.currentWord.length; i++) {
                 if (input == game.currentWord[i]) {
