@@ -1,8 +1,6 @@
-function RandomWords() {
-    let words = ['hello', 'hi', 'good morning', 'sun', 'python']
+function RandomWords(words) {
     let removeSpaceWords = words.map(word => word.replace(/ /g, ''))
     let randominxed = Math.floor(Math.random() * removeSpaceWords.length)
-    console.log(removeSpaceWords[randominxed])
     return removeSpaceWords[randominxed]
 }
 
@@ -14,31 +12,43 @@ function createArena(words) {
     return massive
 }
 
-
+function check_word(arena) {
+    while (true) {
+        let word = prompt(`${arena.join('')}\nВведите букву`).toLowerCase()
+        if (word != null) {
+            if (!(word.length > 1)) {
+                return word
+            } else {
+                console.log('Вы вели больше одной буквы, попробуйте еще раз')
+            }
+        } else {
+            return null
+        }
+    }
+}
 
 function main() {
     alert('Загадано слово, угадайте его')
     let change = 0
-    let randomwords = RandomWords()
-    let check_two = createArena(randomwords)
-    console.log(check_two)
+    massive_words = ['hello', 'hi', 'good morning', 'sun', 'python']
+    let randomwords = RandomWords(massive_words)
+    let arena = createArena(randomwords)
     while (true) {
-        words = prompt(`${check_two}\nВведите букву`).toLowerCase()
-        console.log(words)
+        words = check_word(arena)
         if (words != null) {
-            if (!(words.length > 2)) {
-                console.log(randomwords)
-                for (let i = 0; i < randomwords.length; i++) {
-                    if (words == randomwords[i]) {
-                        check_two[i] = words
-                    }
+            console.log(randomwords)
+            for (let i = 0; i < randomwords.length; i++) {
+                if (words == randomwords[i]) {
+                    arena[i] = words
                 }
-                console.log(check_two)
-                if (!(check_two.includes('-'))) {
-                    break;
-                }
-            } else {
-                console.log('Вы вели больше одной буквы, попробуйте еще раз')
+            }
+            console.log(!(randomwords.includes(words)))
+            if (!(randomwords.includes(words))) {
+                change++;
+            }
+            console.log(arena)
+            if (!(arena.includes('-'))) {
+                break;
             }
         } else {
             break
@@ -48,7 +58,7 @@ function main() {
     if (choose != null && choose == 'y') {
         main()
     }
-}
 
+}
 
 main()
